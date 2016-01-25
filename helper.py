@@ -67,7 +67,7 @@ class MyHelper:
         return self
 
     def get_license_info(self):
-        license_filenames = ('LICENSE', 'LISENCE.md')
+        license_filenames = ('LICENSE', 'LICENSE.md', 'LICENSE.txt')
 
         for k in self.__COMPOSER_DATA:
             self.__AUTHORS_DATA.append('[' + k + ']')
@@ -120,7 +120,7 @@ class MyHelper:
                         continue
 
                 if file_exists == 0:
-                    self.__UNDEFINED_AUTHORS.append(pkg['name'])
+                    self.__UNDEFINED_AUTHORS.append(pkg['name'] + '\t' + pkg['version'])
                     self.logger.warn('::'.join([self.__class__.__name__, sys._getframe().f_code.co_name]) + '::' +
                                      'license file not found.[' + pkg['name'] + ']')
 
@@ -142,6 +142,23 @@ class MyHelper:
 
             self.logger.info('::'.join([self.__class__.__name__, sys._getframe().f_code.co_name]) + '::' +
                              output_file + ' successfully ceated.')
+
+        return self
+
+    def check_undefined_authors(self):
+        if len(self.__UNDEFINED_AUTHORS) != 0:
+            warn_packages = u'\n'.join(self.__UNDEFINED_AUTHORS)
+            warn_message = """\
+
+Following package's license files were not found.
+You need to check on your own...
+
+{warn_packages}
+            """
+            warn_message = warn_message.format(**vars())
+
+            self.logger.warn('::'.join([self.__class__.__name__, sys._getframe().f_code.co_name]) + '::' +
+                             warn_message)
 
         return self
 
