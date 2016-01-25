@@ -67,7 +67,7 @@ class MyHelper:
         return self
 
     def get_license_info(self):
-        license_filenames = ('LICENSE', 'LISENCE.md')
+        license_filenames = ('LICENSE', 'LICENSE.md', 'LICENSE.txt')
 
         for k in self.__COMPOSER_DATA:
             self.__AUTHORS_DATA.append('[' + k + ']')
@@ -84,7 +84,6 @@ class MyHelper:
                     em = rp.search(pkg['source']['url'])
                     license_path = 'https://raw.githubusercontent.com/' + em.group(1) + '/master/' + fn
                     req = urllib2.Request(license_path)
-                    print "[DEBUG:::::] " + license_path
 
                     try:
                         res = urllib2.urlopen(req)
